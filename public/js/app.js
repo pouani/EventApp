@@ -19835,14 +19835,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     deleteEvent: function deleteEvent(idx) {
-      var _this3 = this;
-
       console.log(this.events[idx].id);
-      axios["delete"]('/api/events/${id}') // this.events[idx].id
-      .then(function (response) {
-        _this3.events[idx].id;
-
-        _this3.events.splice(idx, 1);
+      axios["delete"]("/api/events/".concat(this.events[idx].id)).then(function (res) {
+        console.log(res);
       });
       console.log(idx); // this.events.splice(idx, 1);
     }

@@ -70,12 +70,10 @@
             },
             deleteEvent(idx){
                 console.log(this.events[idx].id);
-                axios.delete('/api/events/${id}')
-                    // this.events[idx].id
-                    .then(response =>{
-                        this.events[idx].id;
-                        this.events.splice(idx, 1)
-                });
+                axios.delete(`/api/events/${this.events[idx].id}`)
+                    .then(res =>{
+                        console.log(res)
+                    });
                 console.log(idx)
                 // this.events.splice(idx, 1);
             }
