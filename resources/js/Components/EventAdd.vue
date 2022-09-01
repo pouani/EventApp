@@ -1,7 +1,9 @@
 <template lang="">
-    <div class="cont fixed inset-0 z-20 h-screen w-full flex items-center justify-center">
-        <li class="absolute inset-y-0 right-1 list-none h-10 w-10 bg-white rounded-md 
-        flex items-center justify-center shadow-md mx-2 my-3 cursor-pointer">x</li>
+    <div v-if="revele" class="cont fixed inset-0 z-20 h-screen w-full flex items-center justify-center">
+        <li
+            class="absolute inset-y-0 right-1 list-none h-10 w-10 bg-white rounded-md 
+        flex items-center justify-center shadow-md mx-2 my-3 cursor-pointer"
+        v-on:click="toggleModale">x</li>
         <form action="">
             <div>
                 <div>
@@ -31,7 +33,8 @@
 </template>
 <script>
 export default {
-    
+    name: "EventAdd",
+    props: ['revele', 'toggleModale'],
 }
 </script>
 <style lang="css">
