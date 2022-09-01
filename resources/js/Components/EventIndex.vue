@@ -71,11 +71,8 @@
             deleteEvent(idx){
                 console.log(this.events[idx].id);
                 axios.delete(`/api/events/${this.events[idx].id}`)
-                    .then(res =>{
-                        console.log(res)
-                    });
-                console.log(idx)
-                // this.events.splice(idx, 1);
+                    .then(res => this.events.splice(idx, 1))
+                    .catch(err => console.log(err))
             }
         },
     }

@@ -19835,11 +19835,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     deleteEvent: function deleteEvent(idx) {
+      var _this3 = this;
+
       console.log(this.events[idx].id);
       axios["delete"]("/api/events/".concat(this.events[idx].id)).then(function (res) {
-        console.log(res);
+        return _this3.events.splice(idx, 1);
+      })["catch"](function (err) {
+        return console.log(err);
       });
-      console.log(idx); // this.events.splice(idx, 1);
     }
   }
 });
