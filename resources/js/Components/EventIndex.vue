@@ -1,14 +1,24 @@
 <template lang="">
     <div>
-        <div class="group relative px-4 pt-4">
-            <svg width="20" height="20" fill="currentColor" class="absolute left-6 md:left-3 top-1/2 md:-mt-2.5 -mt-0.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500" aria-hidden="true">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
-            </svg>
-            <input v-model="query" class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm" type="text" aria-label="Search events" placeholder="Search events...">
+        <div class="flex justify-between items-center pt-4 max-w-7xl px-4 mx-auto">
+            <div class="group relative">
+                <svg width="20" height="20" fill="currentColor" class="absolute left-6 md:left-3 top-1/2 md:-mt-2.5 -mt-0.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
+                </svg>
+                <input v-model="query" class="focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm" type="text" aria-label="Search events" placeholder="Search events...">
+            </div>
+            <ul class="flex" >
+                <li class="list-none" v-for="event in events.links">
+                    <Link :href="event.url" class="page-link px-4 py-2 mx-1 text-gray-700 transition-colors duration-300 transform bg-white rounded-md sm:inline hover:bg-blue-500 hover:text-white">
+                        {{event.label}}
+                    </Link>
+                </li>
+            </ul>
         </div>
         <div class="max-w-7xl px-4 mx-auto py-12 grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center">
             
-            <Transition duration="550" name="nested" class="" v-for="(event, idx) in search" :key="event.id">
+            <div duration="550" name="nested" class="" v-for="(event, idx) in events.data" :key="event.id">
+                
                 <div class="">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg rounded-lg">
                         <div class="flex justify-between items-center p-6 bg-white border-b border-gray-200">
@@ -33,18 +43,24 @@
                         </div>
                     </div>
                 </div>
-            </Transition>
+            </div>
            
         </div>
     </div>
 </template>
 <script>
     import moment from "moment";
+    import { Link } from '@inertiajs/inertia-vue3';
+
     export default{
+        components:{
+            Link
+        },
         data() {
             return {
-                events: [],
+                events: {},
                 query: '',
+                links: [],
             }
         },
         mounted() {
@@ -58,6 +74,11 @@
         computed: {
             search() {
                 return this.events.filter((event) => event.title.toLowerCase().includes(this.query))
+            },
+            paginated(){
+                this.links.shift();
+                this.links.pop();
+                return this.links;
             }
         },
         methods: {

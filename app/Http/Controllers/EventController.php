@@ -6,6 +6,7 @@ use App\Models\Tag;
 use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -18,7 +19,7 @@ class EventController extends Controller
     {
         $events = Event::where('start_at', '>=', now())
                     ->with(['user', 'tags'])
-                    ->get();
+                    ->paginate(5);
         return response()->json([
             'events' => $events,
         ]);
@@ -121,5 +122,17 @@ class EventController extends Controller
         $event = Event::find($id);
         $event->delete();
         return response()->json('Event deleted!');
+    }
+
+    public function search(Request $request)
+    {
+        $start_at = $request->input('start_at');
+        $end_at = $request->input('end_at');
+
+        $query = DB::table('events')->select()
+                ->where('start_at', '>=', $start_at)
+                ->where('end_at', '<=', $end_at)
+                ->get();
+        return response()->json($query);
     }
 }

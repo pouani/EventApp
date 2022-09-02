@@ -1,13 +1,5 @@
-<script setup>
-import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
-import EventIndex from '@/Components/EventIndex.vue';
-import { Head } from '@inertiajs/inertia-vue3';
-import EventAdd from '../Components/EventAdd.vue';
-</script>
-
 <template>
     <Head title="Dashboard" />
-
     <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="text-gray-800 leading-tight flex justify-between items-center">
@@ -25,7 +17,17 @@ import EventAdd from '../Components/EventAdd.vue';
     </BreezeAuthenticatedLayout>
 </template>
 <script>
+    import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+    import EventIndex from '@/Components/EventIndex.vue';
+    import { Head } from '@inertiajs/inertia-vue3';
+    import EventAdd from '../Components/EventAdd.vue';
     export default {
+        components:{
+            BreezeAuthenticatedLayout,
+            EventIndex,
+            Head,
+            EventAdd,
+        },
         data(){
             return {
                 revele: false,
@@ -34,6 +36,7 @@ import EventAdd from '../Components/EventAdd.vue';
         methods: {
             toggleModale: function(){
                 this.revele = !this.revele;
+                console.log(this.revele);
             }
         },
     }
