@@ -21,7 +21,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('start_at');
             $table->dateTime('end_at');
 
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->default(1);
 
             $table->timestamps();
         });

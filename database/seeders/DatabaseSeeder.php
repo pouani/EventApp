@@ -13,14 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $tags = \App\Models\Tag::factory(6)->create();
 
-        \App\Models\User::factory(8)->create()->each(function($user)use($tags){
+        \App\Models\User::factory(2)->create()->each(function($user){
             \App\Models\Event::factory(rand(2, 4))->create([
                 'user_id' => $user->id,
-            ])->each(function($event) use($tags){
-                $event->tags()->attach($tags->random(2));
-            });
+            ]);
         });
     }
 }

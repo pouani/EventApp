@@ -12,7 +12,14 @@
                 </button>
             </h2>
         </template>
-        <EventAdd :revele="revele"/>
+        <div v-if="revele" class="cont fixed inset-0 z-20 h-screen w-full flex items-center justify-center">
+            <li
+            class="absolute inset-y-0 right-1 list-none h-10 w-10 bg-white rounded-md 
+            flex items-center justify-center shadow-md mx-2 my-3 cursor-pointer"
+            @click="toggleModale()">x</li>
+            <EventAdd />
+        </div>
+        
         <EventIndex />
     </BreezeAuthenticatedLayout>
 </template>
@@ -21,13 +28,15 @@
     import EventIndex from '@/Components/EventIndex.vue';
     import { Head } from '@inertiajs/inertia-vue3';
     import EventAdd from '../Components/EventAdd.vue';
+import UpdateEvent from '@/Components/UpdateEvent.vue';
     export default {
         components:{
-            BreezeAuthenticatedLayout,
-            EventIndex,
-            Head,
-            EventAdd,
-        },
+    BreezeAuthenticatedLayout,
+    EventIndex,
+    Head,
+    EventAdd,
+    UpdateEvent
+},
         data(){
             return {
                 revele: false,
@@ -36,8 +45,8 @@
         methods: {
             toggleModale: function(){
                 this.revele = !this.revele;
-                console.log(this.revele);
-            }
+            },
+            
         },
     }
 </script>

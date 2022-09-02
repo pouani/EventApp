@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Tag;
 use Inertia\Inertia;
 use App\Models\Event;
@@ -18,11 +19,14 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::where('start_at', '>=', now())
-                    ->with(['user', 'tags'])
+                    ->with(['user'])
+                    ->orderBy('start_at', 'asc')
                     ->paginate(5);
         return response()->json([
             'events' => $events,
         ]);
+
+        // return redirect()->route('dashboard');
     }
 
     /**
@@ -43,32 +47,33 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $event = $auth_user = auth()->user();
-
-        $auth_user->events()->create([
-            'title' => $request->title,
-            'start_at' => $request->start_at,
-            'end_at' => $request->end_at,
-        ]);
-
-
-        $tags = explode(',', $request->tags);
-
-        foreach ($tags as $input){
-            $input = trim($input);
-
-            $tag = Tag::firstOrCreate([
-                'name' => $input,
-            ], [
-                'name' => $input,
+        try{
+            $event = new Event([
+                'title' => $request->input('title'), 
+                'start_at' => $request->input('start_at'), 
+                'end_at' => $request->input('end_at'),
             ]);
-
-            $event->tags()->attach($tag->id);
+            $event->save();
+            return response()->json([
+                'success' => true,
+                'event' => $event,
+            ],200);
+        }catch(Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ],501);
         }
 
-        return response()->json([
-            'success' => true,
-        ]);
+        // $auth_user->events()->create([
+        //     'title' => $request->title,
+        //     'start_at' => $request->start_at,
+        //     'end_at' => $request->end_at,
+        // ]);
+
+        // return response()->json([
+        //     'success' => true,
+        // ]);
     }
 
     /**
